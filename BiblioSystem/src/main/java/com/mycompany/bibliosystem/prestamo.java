@@ -16,20 +16,22 @@ public class prestamo {
     private String IBN;
     private String FP; // FECHA PRESTAMO
     private String FD; // FECHA DEVOLUCION
+    private String historial;
     
     public static ArrayList <prestamo> ListaPrestamos = new ArrayList <>();
     
-    prestamo(int carnet,String IBN, String NombreLibro,String FP, String FD){
+    prestamo(int carnet,String IBN, String NombreLibro,String FP, String FD,String historial){
         this.carnet = carnet;
         this.IBN = IBN;
         this.NombreLibro=NombreLibro;
         this.FP= FP;
         this.FD=FD;
+        this.historial=historial;
     }
     
     //  save prestamos
-    static void guardarPrestamo(int carnet ,String IBN , String NombreLibro,String FP, String FD){
-        prestamo prestamistas = new prestamo(carnet,IBN,NombreLibro, FP, FD);
+    public static void guardarPrestamo(int carnet ,String IBN , String NombreLibro,String FP, String FD,String historial){
+        prestamo prestamistas = new prestamo(carnet,IBN,NombreLibro, FP, FD, historial);
         ListaPrestamos.add(prestamistas);
     }
 
@@ -38,6 +40,9 @@ public class prestamo {
      */
     public int getCarnet() {
         return carnet;
+    }
+    public String getHistorial(){
+        return historial;
     }
 
     /**

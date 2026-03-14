@@ -21,12 +21,13 @@ public class LectorArchivoPrestamos {
             while(leer.hasNextLine()){
                 String linea = leer.nextLine();
                 String [] datos = linea.split(",");
-                int carnet = Integer.parseInt(datos[0].trim());
-                String ibn = datos[1];
+                int carnet = Integer.parseInt(datos[0]);
+                String ibn = datos[1].trim();
                 String nombre = datos[2];
                 String fechaP = datos[3];
                 String fechaD = datos[4];
-                prestamo.guardarPrestamo(carnet, ibn, nombre, fechaP, fechaD);
+                String historial = datos[5];
+                prestamo.guardarPrestamo(carnet, ibn, nombre, fechaP, fechaD,historial);
             }
             leer.close();
         }

@@ -6,6 +6,7 @@ package com.mycompany.bibliosystem.Ventanas;
 import com.mycompany.bibliosystem.Libro;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +23,8 @@ public final class MenuPrestamo extends javax.swing.JFrame {
     public MenuPrestamo() {
         initComponents();
         CargarTabla(com.mycompany.bibliosystem.Libro.libros);
+        
+        
     }
 
     /**
@@ -36,11 +39,12 @@ public final class MenuPrestamo extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        entradaIbn = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         ScroollTablaLibros = new javax.swing.JScrollPane();
         TablaLibros = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -51,7 +55,7 @@ public final class MenuPrestamo extends javax.swing.JFrame {
 
         jLabel2.setText("Ingresar IBN del libro a prestar");
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        entradaIbn.addActionListener(this::entradaIbnActionPerformed);
 
         jButton1.setText("Prestar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
@@ -94,6 +98,9 @@ public final class MenuPrestamo extends javax.swing.JFrame {
             TablaLibros.getColumnModel().getColumn(4).setHeaderValue("Ejemplares");
         }
 
+        jButton3.setText("Regresar");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,15 +114,17 @@ public final class MenuPrestamo extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField1))
-                                .addGap(160, 160, 160)
+                                    .addComponent(entradaIbn))
+                                .addGap(58, 58, 58)
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)
+                                .addGap(69, 69, 69)
                                 .addComponent(jButton2)
                                 .addGap(26, 26, 26))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(316, 316, 316)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -129,23 +138,25 @@ public final class MenuPrestamo extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(entradaIbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void entradaIbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaIbnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_entradaIbnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // obtener estudiante actual
+        int CarnetActual = tres.carnetActual;
         
-// TODO add your handling code here: ------------------- 00000000000000000
-        
+        initPrestamo(CarnetActual);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -154,6 +165,47 @@ public final class MenuPrestamo extends javax.swing.JFrame {
         CargarTabla(com.mycompany.bibliosystem.Libro.libros);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        
+        MenuUsuario ventana = new MenuUsuario();
+        ventana.setLocationRelativeTo(null);
+        ventana.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void initPrestamo(int Carnet){
+        
+        // obtener ibn
+        String IBN = entradaIbn.getText().trim();
+        // metodo para obtener el nombre del libro atraves del ibn
+        String BookName = Libro.getBookName(IBN);
+        
+        if (BookName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontro el libro","Error : "+BookName,JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Se prestó correctamente el libro", "Exito en la operación",JOptionPane.INFORMATION_MESSAGE);
+            // obtener fecha actual
+            String fechaP = Libro.getDatePrestamo();
+            
+            // Obtener fecha de devolucion
+            String fechaD = Libro.SumaFecha(fechaP);
+            
+            Object [] prestamo = new Object [6];
+            prestamo[0]=Carnet;
+            prestamo[1]=IBN;
+            prestamo[2]=BookName;
+            prestamo[3]=fechaP;
+            prestamo[4]=fechaD;
+            String historial = "activo";
+            prestamo[5]=historial;
+        
+        
+            com.mycompany.bibliosystem.prestamo.guardarPrestamo(Carnet, IBN, BookName, fechaP, fechaD,historial);
+        }  
+    }
+    
     public void CargarTabla (ArrayList<Libro> Libros){
         
         DefaultTableModel modelo ;
@@ -208,12 +260,13 @@ public final class MenuPrestamo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane ScroollTablaLibros;
     private javax.swing.JTable TablaLibros;
+    private javax.swing.JTextField entradaIbn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
 

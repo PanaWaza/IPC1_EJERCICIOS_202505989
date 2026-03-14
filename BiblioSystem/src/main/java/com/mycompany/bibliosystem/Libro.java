@@ -4,6 +4,7 @@
  */
 package com.mycompany.bibliosystem;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -97,7 +98,7 @@ public class Libro {
     public void setEjemplares(int ejemplares) {
         this.ejemplares = ejemplares;
     }
-    private String IBN;
+    public String IBN;
     private String titulo;
     private String autor;
     private String genero;
@@ -124,7 +125,39 @@ public class Libro {
        libros.add(nuevoLibro);
    }
     
+   
+   public static String getBookName(String ibn){
+       String BookName;
+       for (Libro libro : libros) {
+           // van y chingan a su madre caracteres vacios 
+           if (libro.IBN.trim().equals(ibn.trim())) {
+               BookName = libro.titulo;
+               return BookName;
+           }
+       }
+       return BookName = ""; // retorno por si el ibn esta malo
+   }
     
+   public static String getDatePrestamo(){
+       
+       LocalDate fecha = LocalDate.now();
+       String FechaPrestamo = fecha.toString();
+       return FechaPrestamo;
+   }
+   
+   // sumarle una semana a la fecha
+   public static String SumaFecha(String fechaPrestamo){
+       
+       LocalDate date = LocalDate.parse(fechaPrestamo);
+       date = date.plusWeeks(1);
+       
+       String Sdate = date.toString();
+       
+       return Sdate;
+   }
+   
+   
+   
     /*
     Permite buscar un libro por código interno o ISBN y modificar sus datos, excepto el 
 código interno. La cantidad total de ejemplares puede modificarse siempre que el nuevo 

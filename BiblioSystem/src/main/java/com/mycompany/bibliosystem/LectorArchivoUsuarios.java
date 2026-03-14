@@ -36,7 +36,8 @@ public class LectorArchivoUsuarios {
                     int rolModerador = Integer.parseInt(datos[0]);
                     String nombreModerador = datos[1];
                     String contraeModerador = datos[2];
-                    Moderadores.saveModeradores(rolModerador,nombreModerador,contraeModerador);
+                    int carnet = Integer.parseInt(datos[3]);
+                    Moderadores.saveModeradores(rolModerador,nombreModerador,contraeModerador,carnet);
                 }
             }
             lector.close(); //cerrar el archivo una vez terminado de usar
